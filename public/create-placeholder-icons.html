@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Gerar Ícones FinFamília</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            margin: 10px;
+            border-radius: 20px;
+        }
+        button {
+            background: #1B4332;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #2D6A4F;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Gerar Ícones FinFamília</h1>
+    <p>Clica nos botões para descarregar os ícones PWA</p>
+    
+    <div>
+        <canvas id="canvas192" width="192" height="192"></canvas>
+        <canvas id="canvas512" width="512" height="512"></canvas>
+    </div>
+    
+    <div>
+        <button onclick="downloadIcon(192)">📥 Descarregar icon-192.png</button>
+        <button onclick="downloadIcon(512)">📥 Descarregar icon-512.png</button>
+    </div>
+    
+    <p style="color: #666; margin-top: 30px;">
+        Depois de descarregar, coloca os ficheiros na pasta <code>public/</code>
+    </p>
+    
+    <script>
+        function createIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const ctx = canvas.getContext('2d');
+            
+            // Background (rounded)
+            ctx.fillStyle = '#1B4332';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Circle
+            ctx.fillStyle = '#2D6A4F';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size*0.35, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Euro symbol
+            ctx.fillStyle = '#F8F9FA';
+            ctx.font = `bold ${size*0.4}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('€', size/2, size/2);
+        }
+        
+        function downloadIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const link = document.createElement('a');
+            link.download = `icon-${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Create both icons on load
+        createIcon(192);
+        createIcon(512);
+    </script>
+</body>
+</html>
